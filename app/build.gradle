@@ -29,4 +29,5 @@ dependencies {
 
     // compile project(':lib')
     compile files('libs/lib-facepp_api.jar')
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
 }

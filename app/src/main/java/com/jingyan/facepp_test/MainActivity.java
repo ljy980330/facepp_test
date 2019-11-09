@@ -2,65 +2,52 @@ package com.jingyan.facepp_test;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import com.megvii.facepp.api.FacePPApi;
-import com.megvii.facepp.api.IFacePPCallBack;
-import com.megvii.facepp.api.bean.FaceSetDetailResponse;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    public static String API_Key = "jnKErmEcRWpMI1UHB2rNZF10AUxss_8-";
+    public static String API_Secret = "1wvLR6qXsPrhQHAwmv3ekjM-JbN8b9hH";
+    public static String FaceSet = "ce5a1743232bd1763f0b15772e9ce0e0";
+    public static FacePPApi faceppApi;
 
     private String TAG = "Facepp_Test";
-    private String API_Key = "jnKErmEcRWpMI1UHB2rNZF10AUxss_8-";
-    private String API_Secret = "1wvLR6qXsPrhQHAwmv3ekjM-JbN8b9hH";
-    private String FaceSet = "ce5a1743232bd1763f0b15772e9ce0e0";
-    FacePPApi faceppApi;
-
-    private Button FaceSetBtn;
-    private TextView RetTextView;
+    private ImageButton SearchImageBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "----onCreate----");
 
         faceppApi = new FacePPApi(API_Key, API_Secret);
 
-        RetTextView = findViewById(R.id.textView_return);
-
-        FaceSetBtn = findViewById(R.id.button_faceset);
-        FaceSetBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map<String, String> params = new HashMap<>();
-                params.put("faceset_token", FaceSet);
-                faceppApi.facesetDetail(params, new IFacePPCallBack<FaceSetDetailResponse>() {
-                    @Override
-                    public void onSuccess(FaceSetDetailResponse faceSetDetailResponse) {
-                        refreshView(faceSetDetailResponse.toString());
-                    }
-
-                    @Override
-                    public void onFailed(String s) {
-                        refreshView(s);
-                    }
-                });
-            }
-        });
+        SearchImageBtn = findViewById(R.id.imageButton_search);
+        setListeners();
     }
 
-    private void refreshView(final String response) {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                RetTextView.setText(response);
+    private void setListeners(){
+        OnClick onClick = new OnClick();
+        SearchImageBtn.setOnClickListener(onClick);
+    }
+
+    private class OnClick implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            Intent intent = null;
+            switch (v.getId())
+            {
+                case R.id.imageButton_search:
+                    //goto FaceSetActivity
+                    intent = new Intent(MainActivity.this, FaceSetActivity.class);
+                    break;
             }
-        });
+            startActivity(intent);
+        }
     }
 }
