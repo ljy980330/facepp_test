@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">智慧考勤</string>
+    <string name="Search_btn_name">查询人脸库</string>
+    <string name="Search_ret_name">default</string>
 </resources>
